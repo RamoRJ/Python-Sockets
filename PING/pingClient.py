@@ -16,24 +16,25 @@ while pings < 11:
     #Ping server
     message = 'test'
 
+    #set message to bytes object
+    bytes_message = bytes(message, 'utf-8')
+
     addr = ("127.0.0.1", 12000)
 
     #Send ping
     start = time.time()
-    clientSocket.sendto(message, addr) 
-    #####
-    #need to make a bytes message
-    #####
+    clientSocket.sendto(bytes_message, addr) 
 
     #if we get something from the server - display it.
     try:
         data, server = clientSocket.recvfrom(1024)
+        newData = data.decode('utf-8')
         end = time.time()
         elapsed = end - start
-        print(data + " " + pings + " "+ elapsed )       
+        print(str(newData) + " " + str(pings) + " "+ str(elapsed) )       
 
     #if nothing from server - time out message  
     except timeout:
         print('REQUEST TIMED OUT')
 
-    pings = pings - 1
+    pings = pings + 1
